@@ -7,6 +7,9 @@ otherwise use [dwm-winicon-tagicon-6.5.diff](dwm-winicon-tagicon-6.5.diff).
 
 ### Screenshots
 
+![](screenshots/dwm-tagicon.png)
+
+with overwrite:\
 ![](screenshots/dwm-tagicon-overwrite.png)
 
 ### Requirements

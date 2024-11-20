@@ -181,12 +181,8 @@ index 6471431..e42eead 100644
  
  /* Map functions */
  void drw_map(Drw *drw, Window win, int x, int y, unsigned int w, unsigned int h);
-diff --git a/dwm b/dwm
-new file mode 100755
-index 0000000..4536408
-Binary files /dev/null and b/dwm differ
 diff --git a/dwm.c b/dwm.c
-index f1d86b2..895ec5d 100644
+index f1d86b2..cc35cc1 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -28,6 +28,8 @@
@@ -324,7 +320,7 @@ index f1d86b2..895ec5d 100644
 +		if (taghasicon) {
 +			drw_pic(
 +				drw,
-+				tagiconatstart ? x + lrpad / 2 : x + TEXTW(tagbuf),
++				tagiconatstart ? x + lrpad / 2 : x + TEXTW(tag),
 +				(bh - tagclients[i]->ich) / 2,
 +				tagclients[i]->icw,
 +				tagclients[i]->ich,

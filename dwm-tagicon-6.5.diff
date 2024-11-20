@@ -21,12 +21,8 @@ index fb931a4..c9a0c00 100644
  static const char *fonts[]          = { "monospace:size=10" };
  static const char dmenufont[]       = "monospace:size=10";
  static const char col_gray1[]       = "#222222";
-diff --git a/dwm b/dwm
-new file mode 100755
-index 0000000..4536408
-Binary files /dev/null and b/dwm differ
 diff --git a/dwm.c b/dwm.c
-index 8266ec6..895ec5d 100644
+index 8266ec6..cc35cc1 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -277,6 +277,8 @@ static Window root, wmcheckwin;
@@ -114,7 +110,7 @@ index 8266ec6..895ec5d 100644
 +		if (taghasicon) {
 +			drw_pic(
 +				drw,
-+				tagiconatstart ? x + lrpad / 2 : x + TEXTW(tagbuf),
++				tagiconatstart ? x + lrpad / 2 : x + TEXTW(tag),
 +				(bh - tagclients[i]->ich) / 2,
 +				tagclients[i]->icw,
 +				tagclients[i]->ich,

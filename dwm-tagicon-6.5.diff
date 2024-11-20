@@ -21,8 +21,12 @@ index fb931a4..3e9ea2b 100644
  static const char *fonts[]          = { "monospace:size=10" };
  static const char dmenufont[]       = "monospace:size=10";
  static const char col_gray1[]       = "#222222";
+diff --git a/dwm b/dwm
+new file mode 100755
+index 0000000..4536408
+Binary files /dev/null and b/dwm differ
 diff --git a/dwm.c b/dwm.c
-index 8266ec6..520bf42 100644
+index 8266ec6..4802f05 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -277,6 +277,8 @@ static Window root, wmcheckwin;
@@ -43,25 +47,25 @@ index 8266ec6..520bf42 100644
 -		while (ev->x >= x && ++i < LENGTH(tags));
 +		do {
 +			x += tagw[i];
-+		} while (ev->x >=  && ++i < LENGTH(tags));
++		} while (ev->x >= x && ++i < LENGTH(tags));
  		if (i < LENGTH(tags)) {
  			click = ClkTagBar;
  			arg.ui = 1 << i;
-@@ -707,8 +709,11 @@ drawbar(Monitor *m)
+@@ -707,8 +709,12 @@ drawbar(Monitor *m)
  	int x, w, tw = 0;
  	int boxs = drw->fonts->h / 9;
  	int boxw = drw->fonts->h / 6 + 2;
 -	unsigned int i, occ = 0, urg = 0;
--	Client *c;
 +	unsigned int i, taglpad, tagiconw = 0, occ = 0, urg = 0;
-+	Client *c, *tagclient;
+ 	Client *c;
 +	const Client *tagclients[LENGTH(tags)] = {0};
-+	char tagdisp[64], *tag;
++	const char *tag;
++	char tagbuf[64];
 +	Bool taghasicon;
  
  	if (!m->showbar)
  		return;
-@@ -724,13 +729,58 @@ drawbar(Monitor *m)
+@@ -724,13 +730,57 @@ drawbar(Monitor *m)
  		occ |= c->tags;
  		if (c->isurgent)
  			urg |= c->tags;
@@ -77,22 +81,21 @@ index 8266ec6..520bf42 100644
  	for (i = 0; i < LENGTH(tags); i++) {
 -		w = TEXTW(tags[i]);
 +		tag = tags[i];
-+		tagclient = tagclients[i];
-+		taghasicon = tagclient && tagclient->icon;
++		taghasicon = tagclients[i] && tagclients[i]->icon;
 +		tagiconw = 0;
 +
 +		if (taghasicon) {
 +			if (overwritetag) {
-+				tagiconw = tagclient->icw;
++				tagiconw = tagclients[i]->icw;
 +				tag = "";
 +			} else {
-+				tagiconw = tagclient->icw + ICONSPACING;
++				tagiconw = tagclients[i]->icw + ICONSPACING;
 +				if (tagiconatstart) {
-+					snprintf(tagdisp, sizeof(tagdisp), "%s%s", tagiconsep, tag);
++					snprintf(tagbuf, sizeof(tagbuf), "%s%s", tagiconsep, tagbuf);
 +				} else {
-+					snprintf(tagdisp, sizeof(tagdisp), "%s%s", tag, tagiconsep);
++					snprintf(tagbuf, sizeof(tagbuf), "%s%s", tagbuf, tagiconsep);
 +				}
-+				tag = tagdisp;
++				tag = tagbuf;
 +			}
 +		}
 +
@@ -111,11 +114,11 @@ index 8266ec6..520bf42 100644
 +		if (taghasicon) {
 +			drw_pic(
 +				drw,
-+				tagiconatstart ? x + lrpad / 2 : x + TEXTW(tag),
-+				(bh - tagclient->ich) / 2,
-+				tagclient->icw,
-+				tagclient->ich,
-+				tagclient->icon
++				tagiconatstart ? x + lrpad / 2 : x + TEXTW(tagbuf),
++				(bh - tagclients[i]->ich) / 2,
++				tagclients[i]->icw,
++				tagclients[i]->ich,
++				tagclients[i]->icon
 +			);
 +		}
 +
